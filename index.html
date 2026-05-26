@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AQI Skanes Family Resort – Luxury Beachfront Retreat</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr">
+    </script>
+    <style>
+        /* ---- Custom Luxury Palette ---- */
+        :root {
+            --cream: #faf6f0;
+            --gold: #c9a96e;
+            --gold-dark: #b8944d;
+            --deep-blue: #0f2a44;
+            --soft-blue: #1a3a5c;
+            --text-dark: #1e1e1e;
+            --text-light: #f5f0e8;
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+        }
+
+        /* ---- Glassmorphism utility ---- */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1.25rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ---- Gold accent treatments ---- */
+        .gold-accent {
+            color: var(--gold);
+        }
+
+        .gold-border {
+            border-color: var(--gold);
+        }
+
+        .gold-bg {
+            background: var(--gold);
+        }
+
+        .gold-bg-hover:hover {
+            background: var(--gold-dark);
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: #fff;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(201, 169, 110, 0.35);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(201, 169, 110, 0.5);
+        }
+
+        /* ---- Hero Slider ---- */
+        #hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+        }
+
+        #hero .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+
+        #hero .slide.active {
+            opacity: 1;
+        }
+
+        #hero .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 42, 68, 0.45);
+            z-index: 1;
+        }
+
+        #hero .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* ---- Slider dots ---- */
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-dot.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            transform: scale(1.2);
+        }
+
+        /* ---- Section styling ---- */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--deep-blue);
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            color: #6b7280;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* ---- Amenity icon cards ---- */
+        .amenity-icon {
+            font-size: 2.5rem;
+            color: var(--gold);
+            transition: transform 0.3s;
+        }
+
+        .glass-card:hover .amenity-icon {
+            transform: scale(1.15);
+        }
+
+        /* ---- Review carousel ---- */
+        .review-card {
+            min-width: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .review-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        /* ---- Scrollbar styling ---- */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 3px;
+        }
+
+        /* ---- Mobile hamburger ---- */
+        .nav-link {
+            position: relative;
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--gold);
+        }
+
+        #mobile-menu.open {
+            max-height: 400px;
+            opacity: 1;
+            padding: 1rem 0;
+        }
+
+        /* ---- Room cards ---- */
+        .room-img {
+            height: 260px;
+            object-fit: cover;
+            border-radius: 1.25rem 1.25rem 0 0;
+        }
+
+        /* ---- Footer ---- */
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--gold);
+        }
+
+        /* ---- Flatpickr overrides ---- */
+        .flatpickr-day.selected,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange,
+        .flatpickr-day.inRange {
+            background: var(--gold) !important;
+            border-color: var(--gold) !important;
+        }
+
+        .flatpickr-day.today {
+            border-color: var(--gold-dark) !important;
+        }
+
+        /* ---- Responsive tweaks ---- */
+        @media (max-width: 640px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+            #hero .hero-content h1 {
+                font-size: 2.2rem !important;
+            }
+            #hero .hero-content p {
+                font-size: 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- NAVIGATION (fixed, glass)                                     -->
+    <!-- ============================================================ -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-20">
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center gap-2 text-white font-bold text-xl tracking-wider">
+                <i class="fas fa-star gold-accent text-lg"></i>
+                <span>AQI <span class="gold-accent">Skanes</span></span>
+            </a>
+
+            <!-- Desktop nav -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="nav-link text-sm uppercase tracking-widest">About</a>
+                <a href="#rooms" class="nav-link text-sm uppercase tracking-widest">Rooms</a>
+                <a href="#amenities" class="nav-link text-sm uppercase tracking-widest">Amenities</a>
+                <a href="#reviews" class="nav-link text-sm uppercase tracking-widest">Reviews</a>
+                <a href="#contact" class="nav-link text-sm uppercase tracking-widest">Contact</a>
+                <a href="#contact" class="btn-gold text-sm px-5 py-2">Book Now</a>
+            </div>
+
+            <!-- Hamburger -->
+            <button id="hamburger" class="md:hidden text-white text-2xl focus:outline-none" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden max-h-0 overflow-hidden transition-all duration-300 ease-in-out bg-[rgba(15,42,68,0.92)] backdrop-blur-xl">
+            <div class="flex flex-col items-center gap-4 px-6 pb-4">
+                <a href="#about" class="nav-link text-base">About</a>
+                <a href="#rooms" class="nav-link text-base">Rooms</a>
+                <a href="#amenities" class="nav-link text-base">Amenities</a>
+                <a href="#reviews" class="nav-link text-base">Reviews</a>
+                <a href="#contact" class="nav-link text-base">Contact</a>
+                <a href="#contact" class="btn-gold text-sm px-6 py-2 mt-2">Book Now</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================ -->
+    <!-- HERO SECTION with full-screen image slider                    -->
+    <!-- ============================================================ -->
+    <section id="hero">
+        <!-- Slides will be injected by JS -->
+        <div id="hero-slides"></div>
+        <div class="overlay"></div>
+
+        <div class="hero-content">
+            <div class="animate-fade-in">
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <i class="fas fa-star text-[#c9a96e] text-sm"></i>
+                    <span class="text-white/80 text-sm tracking-widest uppercase">Luxury Beachfront Resort</span>
+                    <i class="fas fa-star text-[#c9a96e] text-sm"></i>
+                </div>
+                <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold text-white leading-tight mb-4 drop-shadow-lg">
+                    AQI <span class="text-[#c9a96e]">Skanes</span><br />
+                    <span class="text-2xl sm:text-3xl md:text-4xl font-light tracking-widest">Family Resort</span>
+                </h1>
+                <p class="text-white/90 text-lg sm:text-xl max-w-2xl mx-auto mb-8 drop-shadow">
+                    Where golden sands meet endless luxury — your perfect Mediterranean escape awaits.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#rooms" class="btn-gold text-base px-8 py-3">
+                        <i class="fas fa-bed mr-2"></i>Explore Rooms
+                    </a>
+                    <a href="#contact" class="inline-block border-2 border-white/60 text-white px-8 py-3 rounded-full font-semibold transition-all hover:bg-white/15 hover:border-white">
+                        <i class="fas fa-calendar-check mr-2"></i>Reserve Now
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider dots -->
+        <div id="slider-dots" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-3"></div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 text-white/60 animate-bounce">
+            <i class="fas fa-chevron-down text-xl"></i>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ABOUT / OVERVIEW                                              -->
+    <!-- ============================================================ -->
+    <section id="about" class="py-20 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title">About the Resort</h2>
+                <p class="section-subtitle">Discover the charm of Tunisia's finest family-friendly retreat</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- Image collage -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="rounded-2xl overflow-hidden shadow-lg h-64">
+                        <img src="photo hotel/1.jpg" alt="Resort view" class="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div class="rounded-2xl overflow-hidden shadow-lg h-64 mt-8">
+                        <img src="photo hotel/2.jpg" alt="Pool area" class="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div class="rounded-2xl overflow-hidden shadow-lg h-48 -mt-4">
+                        <img src="photo hotel/3.jpeg" alt="Garden" class="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                    <div class="rounded-2xl overflow-hidden shadow-lg h-48 mt-4">
+                        <img src="photo hotel/4.jpg" alt="Beach" class="w-full h-full object-cover" loading="lazy" />
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-0.5 gold-bg"></div>
+                        <span class="text-[#c9a96e] font-semibold tracking-wider uppercase text-sm">Welcome to Paradise</span>
+                    </div>
+                    <h3 class="text-3xl font-bold text-[#0f2a44] mb-4">AQI Skanes Family Resort</h3>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-map-pin text-[#c9a96e]"></i>
+                        <span class="text-gray-600">Skanes, Monastir Governorate, Tunisia</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <i class="fas fa-star text-[#c9a96e] text-sm"></i>
+                        <i class="fas fa-star text-[#c9a96e] text-sm"></i>
+                        <i class="fas fa-star text-[#c9a96e] text-sm"></i>
+                        <i class="fas fa-star text-[#c9a96e] text-sm"></i>
+                        <i class="fas fa-star-half-alt text-[#c9a96e] text-sm"></i>
+                        <span class="text-gray-500 text-sm ml-2">4.5 / 5 (Excellent)</span>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        Nestled along the pristine shores of the Mediterranean Sea in Skanes, Monastir, 
+                        <strong>AQI Skanes Family Resort</strong> offers an unparalleled blend of luxury, 
+                        comfort, and authentic Tunisian hospitality. Surrounded by lush tropical gardens 
+                        and golden sandy beaches, this resort is the perfect destination for families, 
+                        couples, and discerning travelers seeking a memorable getaway.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed mb-6">
+                        With easy access to Monastir's historic landmarks, vibrant souks, and the 
+                        international airport just a short drive away, the resort serves as an ideal 
+                        base to explore the enchanting Sahel region of Tunisia.
+                    </p>
+                    <div class="flex flex-wrap gap-6 text-sm">
+                        <div class="flex items-center gap-2 text-[#0f2a44]">
+                            <i class="fas fa-umbrella-beach text-[#c9a96e]"></i> Beachfront
+                        </div>
+                        <div class="flex items-center gap-2 text-[#0f2a44]">
+                            <i class="fas fa-snowflake text-[#c9a96e]"></i> Air Conditioned
+                        </div>
+                        <div class="flex items-center gap-2 text-[#0f2a44]">
+                            <i class="fas fa-wifi text-[#c9a96e]"></i> Free Wi-Fi
+                        </div>
+                        <div class="flex items-center gap-2 text-[#0f2a44]">
+                            <i class="fas fa-car text-[#c9a96e]"></i> Free Parking
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ROOMS / SUITES GALLERY                                        -->
+    <!-- ============================================================ -->
+    <section id="rooms" class="py-20 px-4 bg-[#faf6f0]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title">Rooms & Suites</h2>
+                <p class="section-subtitle">Choose from our carefully curated selection of elegant accommodations</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="rooms-grid">
+                <!-- Rooms injected by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- FOOD & DRINKS GALLERY                                         -->
+    <!-- ============================================================ -->
+    <section id="dining" class="py-20 px-4 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title">Food & Drinks</h2>
+                <p class="section-subtitle">A culinary journey through Mediterranean and international flavors</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="food-grid">
+                <!-- Food photos injected by JS -->
+            </div>
+
+            <div class="text-center mt-10">
+                <button class="btn-gold text-base px-8 py-3" onclick="document.getElementById('food-grid').classList.toggle('expanded'); this.textContent = this.textContent === 'View All' ? 'Show Less' : 'View All';">
+                    View All
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- AMENITIES                                                     -->
+    <!-- ============================================================ -->
+    <section id="amenities" class="py-20 px-4 bg-[#0f2a44]">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title text-white">Premium Amenities</h2>
+                <p class="text-white/70 max-w-xl mx-auto">Every detail crafted for your ultimate comfort and relaxation</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- Pool -->
+                <div class="glass-card p-8 text-center">
+                    <div class="amenity-icon mb-4">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-[#0f2a44] mb-2">Swimming Pool</h4>
+                    <p class="text-gray-500 text-sm">Outdoor heated pool with panoramic Mediterranean views and a dedicated children's section.</p>
+                </div>
+                <!-- Gym -->
+                <div class="glass-card p-8 text-center">
+                    <div class="amenity-icon mb-4">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-[#0f2a44] mb-2">Fitness Center</h4>
+                    <p class="text-gray-500 text-sm">State-of-the-art gym equipped with modern cardio and strength-training machines.</p>
+                </div>
+                <!-- Restaurant -->
+                <div class="glass-card p-8 text-center">
+                    <div class="amenity-icon mb-4">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-[#0f2a44] mb-2">Restaurant & Bar</h4>
+                    <p class="text-gray-500 text-sm">Buffet and à la carte dining with international cuisine, live cooking stations, and sunset cocktails.</p>
+                </div>
+                <!-- Parking -->
+                <div class="glass-card p-8 text-center">
+                    <div class="amenity-icon mb-4">
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-[#0f2a44] mb-2">Free Parking</h4>
+                    <p class="text-gray-500 text-sm">Secure, complimentary on-site parking for all guests with 24/7 surveillance.</p>
+                </div>
+                <!-- Wi-Fi -->
+                <div class="glass-card p-8 text-center">
+                    <div class="amenity-icon mb-4">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-[#0f2a44] mb-2">Free Wi-Fi</h4>
+                    <p class="text-gray-500 text-sm">High-speed fiber-optic internet available throughout the resort, including pool and beach areas.</p>
+                </div>
+                <!-- Spa -->
+                <div class="glass-card p-8 text-center">
+                    <div class="amenity-icon mb-4">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-[#0f2a44] mb-2">Spa & Wellness</h4>
+                    <p class="text-gray-500 text-sm">Traditional hammam, massage suites, beauty treatments, and a serene relaxation lounge.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- GUEST REVIEWS CAROUSEL                                        -->
+    <!-- ============================================================ -->
+    <section id="reviews" class="py-20 px-4 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title">What Our Guests Say</h2>
+                <p class="section-subtitle">Real experiences from real travelers</p>
+            </div>
+
+            <div class="relative overflow-hidden rounded-2xl">
+                <div class="review-track" id="review-track">
+                    <!-- Reviews injected by JS -->
+                </div>
+
+                <!-- Navigation arrows -->
+                <button id="review-prev" class="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 flex items-center justify-center shadow-md hover:bg-white transition-all">
+                    <i class="fas fa-chevron-left text-[#0f2a44]"></i>
+                </button>
+                <button id="review-next" class="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 flex items-center justify-center shadow-md hover:bg-white transition-all">
+                    <i class="fas fa-chevron-right text-[#0f2a44]"></i>
+                </button>
+            </div>
+
+            <!-- Review dots -->
+            <div id="review-dots" class="flex justify-center gap-3 mt-6"></div>
+        </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- CONTACT & GOOGLE MAPS EMBED                                   -->
+    <!-- ============================================================ -->
+    <section id="contact" class="py-20 px-4 bg-[#faf6f0]">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="section-title">Contact & Reservations</h2>
+                <p class="section-subtitle">We'd love to hear from you. Book your stay or ask us anything.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Reservation form -->
+                <div class="glass-card p-8">
+                    <h3 class="text-2xl font-bold text-[#0f2a44] mb-6">
+                        <i class="fas fa-calendar-alt gold-accent mr-2"></i>Reservation Request
+                    </h3>
+                    <form id="reservation-form" class="space-y-5">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                                <input type="text" id="form-name" required
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#c9a96e] focus:ring-2 focus:ring-[#c9a96e]/20 outline-none transition-all bg-white/80" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                <input type="email" id="form-email" required
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#c9a96e] focus:ring-2 focus:ring-[#c9a96e]/20 outline-none transition-all bg-white/80" />
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Check-in *</label>
+                                <input type="text" id="form-checkin" required placeholder="Select date"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#c9a96e] focus:ring-2 focus:ring-[#c9a96e]/20 outline-none transition-all bg-white/80" />
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Check-out *</label>
+                                <input type="text" id="form-checkout" required placeholder="Select date"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#c9a96e] focus:ring-2 focus:ring-[#c9a96e]/20 outline-none transition-all bg-white/80" />
+                            </div>
+                        </div>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Guests *</label>
+                                <select id="form-guests"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#c9a96e] focus:ring-2 focus:ring-[#c9a96e]/20 outline-none transition-all bg-white/80">
+                                <option value="1">1 Adult</option>
+                                <option value="2" selected>2 Adults</option>
+                                <option value="3">3 Adults</option>
+                                <option value="4">4 Adults</option>
+                                <option value="5">5+ Adults</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
+                            <select id="form-room"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#c9a96e] focus:ring-2 focus:ring-[#c9a96e]/20 outline-none transition-all bg-white/80">
+                            <option>Standard Room</option>
+                            <option>Deluxe Sea View</option>
+                            <option>Family Suite</option>
+                            <option>Executive Suite</option>
+                            <option>Presidential Suite</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Message (special requests)</label>
+                    <textarea id="form-message" rows="4"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-[#c9a96e] focus:ring-2 focus:ring-[#c9a96e]/20 outline-none transition-all bg-white/80 resize-none"></textarea>
+                </div>
+                <button type="submit" class="btn-gold w-full text-base py-3">
+                    <i class="fas fa-paper-plane mr-2"></i>Send Reservation Request
+                </button>
+            </form>
+        </div>
+
+        <!-- Map & contact info -->
+        <div>
+            <div class="glass-card p-8 mb-6">
+                <h3 class="text-2xl font-bold text-[#0f2a44] mb-4">
+                    <i class="fas fa-map-marked-alt gold-accent mr-2"></i>Find Us
+                </h3>
+                <p class="text-gray-600 mb-4 flex items-start gap-2">
+                    <i class="fas fa-map-pin text-[#c9a96e] mt-1"></i>
+                    <span>AQI Skanes Family Resort<br />Skanes, Monastir 5000, Tunisia</span>
+                </p>
+                <div class="flex items-center gap-3 mb-4 text-gray-600">
+                    <i class="fas fa-phone-alt text-[#c9a96e]"></i>
+                    <span>+216 73 521 000</span>
+                </div>
+                <div class="flex items-center gap-3 mb-4 text-gray-600">
+                    <i class="fas fa-envelope text-[#c9a96e]"></i>
+                    <span>reservations@aqiskanes.tn</span>
+                </div>
+                <div class="flex items-center gap-3 text-gray-600">
+                    <i class="fas fa-globe text-[#c9a96e]"></i>
+                    <span>www.aqiskanes.com</span>
+                </div>
+            </div>
+
+            <!-- Google Maps Embed -->
+            <div class="rounded-2xl overflow-hidden shadow-xl border-2 border-white">
+                <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3271.195497911493!2d10.746232!3d35.7641601!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13021356dc489419%3A0xe628cc07aa43f83b!2sAQI%20Skanes%20Family%20Resort!5e0!3m2!1sen!2stn!4v1"
+                width="100%"
+                height="350"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="AQI Skanes Family Resort Location">
+            </iframe>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                        -->
+<!-- ============================================================ -->
+<footer class="bg-[#0f2a44] text-white py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            <!-- Brand -->
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fas fa-star text-[#c9a96e] text-lg"></i>
+                    <span class="font-bold text-xl tracking-wider">AQI <span class="text-[#c9a96e]">Skanes</span></span>
+                </div>
+                <p class="text-white/60 text-sm leading-relaxed">
+                    Experience the pinnacle of Mediterranean luxury at AQI Skanes Family Resort. 
+                    Where every moment becomes a treasured memory.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="font-bold text-lg mb-4 gold-accent">Quick Links</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#about" class="footer-link">About Us</a></li>
+                    <li><a href="#rooms" class="footer-link">Rooms & Suites</a></li>
+                    <li><a href="#amenities" class="footer-link">Amenities</a></li>
+                    <li><a href="#reviews" class="footer-link">Guest Reviews</a></li>
+                    <li><a href="#contact" class="footer-link">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h4 class="font-bold text-lg mb-4 gold-accent">Contact Info</h4>
+                <ul class="space-y-3 text-sm text-white/70">
+                    <li class="flex items-start gap-2">
+                        <i class="fas fa-map-pin text-[#c9a96e] mt-1"></i>
+                        Skanes, Monastir, Tunisia
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="fas fa-phone-alt text-[#c9a96e]"></i>
+                        +216 73 521 000
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <i class="fas fa-envelope text-[#c9a96e]"></i>
+                        info@aqiskanes.tn
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Social -->
+            <div>
+                <h4 class="font-bold text-lg mb-4 gold-accent">Follow Us</h4>
+                <div class="flex gap-4 text-2xl">
+                    <a href="#" class="footer-link hover:text-[#c9a96e] transition-colors" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="footer-link hover:text-[#c9a96e] transition-colors" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="footer-link hover:text-[#c9a96e] transition-colors" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="footer-link hover:text-[#c9a96e] transition-colors" aria-label="TripAdvisor">
+                        <i class="fab fa-tripadvisor"></i>
+                    </a>
+                    <a href="#" class="footer-link hover:text-[#c9a96e] transition-colors" aria-label="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+                <p class="text-white/50 text-xs mt-4">#AQISkanes</p>
+            </div>
+        </div>
+
+        <div class="border-t border-white/10 mt-10 pt-8 text-center text-white/40 text-sm">
+            &copy; 2026 AQI Skanes Family Resort. All rights reserved. | 
+            Crafted with <i class="fas fa-heart text-[#c9a96e]"></i> in Tunisia
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================ -->
+<!-- JAVASCRIPT                                                    -->
+<!-- ============================================================ -->
+<script>
+    (function() {
+        'use strict';
+
+        // ------------------------------------------------------------
+        // 1. HERO SLIDER
+        // ------------------------------------------------------------
+        const heroPhotos = [
+            'photo hotel/1.jpg',
+            'photo hotel/2.jpg',
+            'photo hotel/3.jpeg',
+            'photo hotel/4.jpg',
+            'photo hotel/5.jpg',
+            'photo hotel/6.jpg',
+            'photo hotel/7.jpg',
+            'photo hotel/8.jpg',
+            'photo hotel/9.jpg',
+            'photo hotel/10.jpg',
+            'photo hotel/11.jpg',
+            'photo hotel/12.jpg',
+            'photo hotel/13.jpg',
+            'photo hotel/ac127787165-tml-skanes-nov18-garden-3.jpg',
+            'photo hotel/ac127787165-tml-skanes-nov18-tennis-courts-2.jpg'
+        ];
+
+        const slidesContainer = document.getElementById('hero-slides');
+        const dotsContainer = document.getElementById('slider-dots');
+
+        let currentSlide = 0;
+        let slideInterval;
+
+        // Create slides
+        heroPhotos.forEach((src, i) => {
+            const div = document.createElement('div');
+            div.className = `slide ${i === 0 ? 'active' : ''}`;
+            div.style.backgroundImage = `url('${src}')`;
+            slidesContainer.appendChild(div);
+
+            const dot = document.createElement('div');
+            dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        });
+
+        function goToSlide(index) {
+            const slides = slidesContainer.children;
+            const dots = dotsContainer.children;
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.toggle('active', i === index);
+                dots[i].classList.toggle('active', i === index);
+            }
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % heroPhotos.length);
+        }
+
+        function startSlider() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopSlider() {
+            clearInterval(slideInterval);
+        }
+
+        startSlider();
+
+        // Pause on hover
+        const hero = document.getElementById('hero');
+        hero.addEventListener('mouseenter', stopSlider);
+        hero.addEventListener('mouseleave', startSlider);
+
+        // Touch swipe for hero
+        let touchStartX = 0;
+        hero.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        hero.addEventListener('touchend', (e) => {
+            const diff = touchStartX - e.changedTouches[0].screenX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextSlide();
+                else goToSlide((currentSlide - 1 + heroPhotos.length) % heroPhotos.length);
+            }
+        });
+
+        // ------------------------------------------------------------
+        // 2. ROOMS GALLERY
+        // ------------------------------------------------------------
+        const roomPhotos = [
+            'photo rooms/1.jpg',
+            'photo rooms/2.jpg',
+            'photo rooms/3.jpg',
+            'photo rooms/4.jpg',
+            'photo rooms/5.jpg',
+            'photo rooms/6.jpg',
+            'photo rooms/7.jpg',
+            'photo rooms/8.jpg',
+            'photo rooms/9.jpg',
+            'photo rooms/10.jpg',
+            'photo rooms/11.jpg',
+            'photo rooms/12.jpg',
+            'photo rooms/13.jpg'
+        ];
+
+        const roomNames = [
+            'Standard Room',
+            'Deluxe Sea View Room',
+            'Family Suite',
+            'Executive Suite',
+            'Premium Double Room',
+            'Superior Garden Suite',
+            'Presidential Suite',
+            'Junior Suite',
+            'Twin Room',
+            'Deluxe Family Suite',
+            'Honeymoon Suite',
+            'Corner Suite',
+            'Royal Penthouse'
+        ];
+
+        const roomDescs = [
+            'Comfortable and cozy with modern amenities and a balcony overlooking the gardens.',
+            'Breathtaking panoramic sea views with a private terrace and premium furnishings.',
+            'Spacious family accommodation with separate living area and two bedrooms.',
+            'Elegant suite with a dedicated workspace, lounge area, and upgraded bathroom.',
+            'Bright and airy double room with plush bedding and garden views.',
+            'Surrounded by lush greenery with direct access to the pool area.',
+            'The pinnacle of luxury with a private jacuzzi, living room, and butler service.',
+            'Compact yet stylish with modern décor and a cozy seating nook.',
+            'Perfect for friends or colleagues with two comfortable single beds.',
+            'Ideal for larger families with connecting rooms and child-friendly amenities.',
+            'Romantic suite with rose petal turndown, champagne, and sea views.',
+            'Corner positioning offers dual-aspect views and extra natural light.',
+            'Expansive top-floor suite with a private rooftop terrace and plunge pool.'
+        ];
+
+        const roomPrices = [
+            '180',
+            '280',
+            '350',
+            '420',
+            '240',
+            '310',
+            '650',
+            '220',
+            '190',
+            '390',
+            '480',
+            '360',
+            '890'
+        ];
+
+        const roomsGrid = document.getElementById('rooms-grid');
+
+        roomPhotos.forEach((src, i) => {
+            const card = document.createElement('div');
+            card.className = 'glass-card overflow-hidden';
+            card.innerHTML = `
+                        <img src="${src}" alt="${roomNames[i]}" class="w-full room-img" loading="lazy" />
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xl font-bold text-[#0f2a44]">${roomNames[i]}</h3>
+                                <span class="text-[#c9a96e] font-bold text-lg">$${roomPrices[i]}</span>
+                            </div>
+                            <p class="text-gray-500 text-sm mb-4">${roomDescs[i]}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-400"><i class="fas fa-user-friends mr-1"></i> 1-4 guests</span>
+                                <a href="#contact" class="text-[#c9a96e] text-sm font-semibold hover:underline">
+                                    Book Now <i class="fas fa-arrow-right ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+            roomsGrid.appendChild(card);
+        });
+
+        // ------------------------------------------------------------
+        // 3. FOOD & DRINKS GALLERY
+        // ------------------------------------------------------------
+        const foodPhotos = [
+            'photo foods and drinks/1.jpg',
+            'photo foods and drinks/2.jpg',
+            'photo foods and drinks/3.jpg',
+            'photo foods and drinks/4.jpeg',
+            'photo foods and drinks/4.jpg',
+            'photo foods and drinks/5.jpg',
+            'photo foods and drinks/6.jpg',
+            'photo foods and drinks/7.jpg',
+            'photo foods and drinks/8.jpg',
+            'photo foods and drinks/9.jpg',
+            'photo foods and drinks/10.jpg',
+            'photo foods and drinks/11.jpg',
+            'photo foods and drinks/12.jpg',
+            'photo foods and drinks/13.jpg',
+            'photo foods and drinks/14.jpg',
+            'photo foods and drinks/15.jpg'
+        ];
+
+        // Show first 6, rest hidden until "View All"
+        const foodGrid = document.getElementById('food-grid');
+        const foodLimit = 6;
+
+        foodPhotos.forEach((src, i) => {
+            const div = document.createElement('div');
+            div.className = `rounded-2xl overflow-hidden shadow-lg ${i >= foodLimit ? 'hidden-item hidden' : ''}`;
+            div.style.transition = 'all 0.3s';
+            div.innerHTML = `
+                        <img src="${src}" alt="Food & Drink ${i + 1}" class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500" loading="lazy" />
+                    `;
+            foodGrid.appendChild(div);
+        });
+
+        // View All toggle
+        const viewAllBtn = document.querySelector('#dining .btn-gold');
+        const hiddenItems = foodGrid.querySelectorAll('.hidden-item');
+        viewAllBtn.addEventListener('click', () => {
+            const isExpanded = foodGrid.classList.toggle('expanded');
+            hiddenItems.forEach(el => el.classList.toggle('hidden', !isExpanded));
+            viewAllBtn.textContent = isExpanded ? 'Show Less' : 'View All';
+        });
+
+        // ------------------------------------------------------------
+        // 4. REVIEWS CAROUSEL
+        // ------------------------------------------------------------
+        const reviews = [{
+            name: 'Sarah M.',
+            date: 'May 2026',
+            rating: 5,
+            text: 'An absolutely stunning resort! The staff went above and beyond to make our family vacation unforgettable. The kids loved the pool, and we loved the beachfront dining. Highly recommend!',
+            avatar: 'S'
+        }, {
+            name: 'James K.',
+            date: 'April 2026',
+            rating: 5,
+            text: 'We stayed for a week in the Deluxe Sea View room and it was pure bliss. Waking up to the Mediterranean sunrise was magical. The food at the buffet was diverse and delicious.',
+            avatar: 'J'
+        }, {
+            name: 'Fatima A.',
+            date: 'March 2026',
+            rating: 4,
+            text: 'Beautiful resort with incredible gardens. The spa treatments were world-class. Only minor suggestion: more variety in the evening entertainment. Otherwise, everything was perfect!',
+            avatar: 'F'
+        }, {
+            name: 'Michael & Emma',
+            date: 'February 2026',
+            rating: 5,
+            text: 'Our honeymoon at AQI Skanes was everything we dreamed of. The staff arranged a romantic dinner on the beach, and the suite was breathtaking. We will definitely return!',
+            avatar: 'M'
+        }, {
+            name: 'Layla R.',
+            date: 'January 2026',
+            rating: 5,
+            text: 'Best family resort in Tunisia! The kids club kept our children entertained while we enjoyed the spa. The all-inclusive package offers great value. Can\'t wait to come back!',
+            avatar: 'L'
+        }];
+
+        const reviewTrack = document.getElementById('review-track');
+        const reviewDots = document.getElementById('review-dots');
+        let reviewIndex = 0;
+
+        reviews.forEach((r, i) => {
+            const card = document.createElement('div');
+            card.className = 'review-card px-4';
+            card.innerHTML = `
+                        <div class="glass-card p-8 md:p-10 text-center max-w-2xl mx-auto">
+                            <div class="w-16 h-16 rounded-full bg-[#c9a96e] text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg">
+                                ${r.avatar}
+                            </div>
+                            <div class="flex justify-center gap-1 mb-3">
+                                ${'<i class="fas fa-star text-[#c9a96e] text-sm"></i>'.repeat(r.rating)}
+                                ${r.rating < 5 ? '<i class="far fa-star text-[#c9a96e] text-sm"></i>'.repeat(5 - r.rating) : ''}
+                            </div>
+                            <p class="text-gray-600 leading-relaxed mb-6 italic">"${r.text}"</p>
+                            <div>
+                                <p class="font-bold text-[#0f2a44]">— ${r.name}</p>
+                                <p class="text-gray-400 text-sm">${r.date}</p>
+                            </div>
+                        </div>
+                    `;
+            reviewTrack.appendChild(card);
+
+            const dot = document.createElement('div');
+            dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', () => goToReview(i));
+            reviewDots.appendChild(dot);
+        });
+
+        function goToReview(index) {
+            reviewIndex = index;
+            const cards = reviewTrack.children;
+            const dots = reviewDots.children;
+            const offset = -index * 100;
+            reviewTrack.style.transform = `translateX(${offset}%)`;
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('active', i === index);
+            }
+        }
+
+        document.getElementById('review-next').addEventListener('click', () => {
+            goToReview((reviewIndex + 1) % reviews.length);
+        });
+
+        document.getElementById('review-prev').addEventListener('click', () => {
+            goToReview((reviewIndex - 1 + reviews.length) % reviews.length);
+        });
+
+        // Auto-rotate reviews
+        let reviewInterval = setInterval(() => {
+            goToReview((reviewIndex + 1) % reviews.length);
+        }, 6000);
+
+        document.querySelector('#reviews').addEventListener('mouseenter', () => clearInterval(reviewInterval));
+        document.querySelector('#reviews').addEventListener('mouseleave', () => {
+            reviewInterval = setInterval(() => {
+                goToReview((reviewIndex + 1) % reviews.length);
+            }, 6000);
+        });
+
+        // ------------------------------------------------------------
+        // 5. RESERVATION FORM
+        // ------------------------------------------------------------
+        // Initialize flatpickr
+        const checkinPicker = flatpickr('#form-checkin', {
+            minDate: 'today',
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: 'F j, Y',
+            onChange: function(selectedDates, dateStr) {
+                checkoutPicker.set('minDate', dateStr);
+                if (checkoutPicker.selectedDates.length && checkoutPicker.selectedDates[0] <= selectedDates[0]) {
+                    checkoutPicker.setDate('');
+                }
+            }
+        });
+
+        const checkoutPicker = flatpickr('#form-checkout', {
+            minDate: 'today',
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: 'F j, Y'
+        });
+
+        document.getElementById('reservation-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const data = {
+                name: document.getElementById('form-name').value.trim(),
+                email: document.getElementById('form-email').value.trim(),
+                checkin: document.getElementById('form-checkin').value,
+                checkout: document.getElementById('form-checkout').value,
+                guests: document.getElementById('form-guests').value,
+                room: document.getElementById('form-room').value,
+                message: document.getElementById('form-message').value.trim()
+            };
+
+            console.log('=== Reservation Request ===');
+            console.log(JSON.stringify(data, null, 2));
+            console.log('===========================');
+
+            // Show success alert
+            const alertDiv = document.createElement('div');
+            alertDiv.className =
+                'fixed top-24 right-4 z-50 bg-white shadow-2xl rounded-2xl p-6 border-l-4 border-[#c9a96e] animate__fadeInRight max-w-sm';
+            alertDiv.innerHTML = `
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-[#0f2a44]">Reservation Submitted!</h4>
+                                <p class="text-gray-500 text-sm mt-1">Thank you, ${data.name}! We'll contact you at <strong>${data.email}</strong> within 24 hours to confirm your stay.</p>
+                                <button onclick="this.closest('div[class*=\\'fixed\\']').remove()" class="text-[#c9a96e] text-sm font-semibold mt-2 hover:underline">Dismiss</button>
+                            </div>
+                        </div>
+                    `;
+            document.body.appendChild(alertDiv);
+
+            // Auto-dismiss after 6 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) alertDiv.remove();
+            }, 6000);
+
+            // Reset form
+            this.reset();
+            checkinPicker.clear();
+            checkoutPicker.clear();
+        });
+
+        // ------------------------------------------------------------
+        // 6. MOBILE HAMBURGER MENU
+        // ------------------------------------------------------------
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        hamburger.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            const icon = hamburger.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                hamburger.querySelector('i').classList.add('fa-bars');
+                hamburger.querySelector('i').classList.remove('fa-times');
+            });
+        });
+
+        // ------------------------------------------------------------
+        // 7. NAVBAR SCROLL EFFECT
+        // ------------------------------------------------------------
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                navbar.classList.add('bg-[rgba(15,42,68,0.92)]', 'shadow-lg', 'backdrop-blur-xl');
+                navbar.classList.remove('bg-transparent');
+            } else {
+                navbar.classList.remove('bg-[rgba(15,42,68,0.92)]', 'shadow-lg', 'backdrop-blur-xl');
+                navbar.classList.add('bg-transparent');
+            }
+        });
+
+        // ------------------------------------------------------------
+        // 8. SMOOTH REVEAL ANIMATION (Intersection Observer)
+        // ------------------------------------------------------------
+        const revealElements = document.querySelectorAll(
+            '.glass-card, .section-title, .section-subtitle, #about .grid, #contact .grid');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+            observer.observe(el);
+        });
+
+    })();
+</script>
+
+</body>
+</html>
